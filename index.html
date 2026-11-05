@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة عقيقة المولود محمد - Aqiqah Mohamed</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Amiri & Cairo for elegant Arabic Calligraphy -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;800&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #f0f9ff 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-quran {
+            font-family: 'Amiri', serif;
+        }
+
+        .font-title {
+            font-family: 'Reem Kufi', sans-serif;
+        }
+
+        /* Animated Floating Clouds */
+        .cloud {
+            position: absolute;
+            opacity: 0.7;
+            animation: float 18s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        .cloud-1 { top: 5%; left: -5%; width: 180px; animation-duration: 22s; }
+        .cloud-2 { top: 15%; right: -5%; width: 220px; animation-duration: 18s; }
+        .cloud-3 { bottom: 10%; left: -2%; width: 200px; animation-duration: 25s; }
+
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-15px) translateX(15px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+
+        /* Wax Seal Pulse Animation */
+        @keyframes pulse-gentle {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(186, 230, 253, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(186, 230, 253, 0); }
+        }
+
+        .seal-pulse {
+            animation: pulse-gentle 2.5s infinite;
+        }
+
+        /* Envelope Open Transitions */
+        .envelope-wrapper {
+            perspective: 1000px;
+            transition: all 0.8s ease-in-out;
+        }
+
+        .envelope-flap {
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .envelope-open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        /* Floating Stars Glow Effect */
+        .star {
+            position: absolute;
+            background-color: #fef08a;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0f9ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #93c5fd;
+            border-radius: 4px;
+        }
+
+        /* Text Shadow for High Contrast on Transparent Background */
+        .text-glow {
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9), 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        .text-glow-dark {
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-3 sm:p-6 text-slate-800 relative">
+
+    <!-- Floating Background Decorative Elements -->
+    <div class="cloud cloud-1 text-sky-200"><i class="fa-solid fa-cloud text-8xl"></i></div>
+    <div class="cloud cloud-2 text-sky-100"><i class="fa-solid fa-cloud text-9xl"></i></div>
+    <div class="cloud cloud-3 text-blue-100"><i class="fa-solid fa-cloud text-8xl"></i></div>
+
+    <div class="star w-4 h-4 top-12 left-1/4" style="animation-delay: 0s;"></div>
+    <div class="star w-6 h-6 top-24 right-1/4" style="animation-delay: 1s;"></div>
+    <div class="star w-5 h-5 bottom-20 right-1/3" style="animation-delay: 0.5s;"></div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="w-full max-w-md relative z-10">
+
+        <!-- 1. ENVELOPE SCREEN (State 1) -->
+        <div id="envelopeScreen" class="envelope-wrapper flex flex-col items-center justify-center min-h-[80vh] gap-6">
+            
+            <!-- Envelope Image Container -->
+            <div id="envelopeCard" onclick="openEnvelope()" class="cursor-pointer group w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden relative transition-all duration-500 hover:shadow-sky-300/70 hover:-translate-y-2 border-4 border-white/80">
+                <img src="enveloppe bleu.jpg" alt="Enveloppe Bleue" class="w-full h-auto object-cover display-block transition-transform duration-500 group-hover:scale-105" />
+            </div>
+
+            <!-- Open Invitation Button (Placed below the envelope image) -->
+            <button onclick="openEnvelope()" class="group relative inline-flex items-center justify-center gap-3 bg-gradient-to-r from-sky-400 via-sky-500 to-blue-500 text-white font-bold px-8 py-3.5 rounded-full shadow-lg shadow-sky-300/50 border-2 border-white hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer">
+                <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:rotate-12 transition-transform">
+                    <i class="fa-solid fa-envelope-open text-white text-base"></i>
+                </div>
+                <div class="flex flex-col text-center">
+                    <span class="text-base sm:text-lg font-bold tracking-wide">اضغط لفتح الدعوة</span>
+                    <span class="text-[11px] font-medium text-sky-100 opacity-90">Cliquez pour ouvrir l'invitation</span>
+                </div>
+                <i class="fa-solid fa-sparkles text-amber-300 animate-pulse mr-1"></i>
+            </button>
+
+            <p class="text-center text-sky-900 font-bold text-sm bg-white/60 px-5 py-1.5 rounded-full backdrop-blur-sm border border-sky-100 shadow-sm">
+                عقيقة المولود "محمد" 🤍
+            </p>
+        </div>
+
+
+        <!-- 2. MAIN INVITATION SCREEN (State 2 - Hidden by Default) -->
+        <div id="invitationScreen" class="hidden opacity-0 transition-all duration-1000 transform scale-95">
+            
+            <!-- Newborn Card Background using newborn bleu.jpg -->
+            <div class="rounded-3xl shadow-2xl overflow-hidden border-4 border-white relative bg-cover bg-center min-h-[680px] flex flex-col justify-between" style="background-image: url('newborn bleu.jpg');">
+                
+                <!-- TRANSPARENT CONTAINER to show background image clearly -->
+                <div class="m-3 sm:m-5 mt-32 sm:mt-36 p-4 sm:p-5 bg-transparent text-center relative z-10 flex flex-col items-center">
+                    
+                    <!-- Quranic Verse Header with Transparent Background & High Contrast Text -->
+                    <div class="mb-4 w-full px-2 py-2">
+                        <p class="font-quran text-sky-950 text-2xl sm:text-3xl leading-relaxed font-bold text-glow">
+                            ﴿ رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ ﴾
+                        </p>
+                    </div>
+
+                    <!-- Announcement Subtitle -->
+                    <p class="text-sky-950 text-base sm:text-lg mb-2 font-bold text-glow-dark">
+                        الحمد لله الذي أعطانا من فضله ورزقنا بمولودنا
+                    </p>
+
+                    <!-- BABY NAME HIGHLIGHT -->
+                    <div class="my-4 relative">
+                        <div class="absolute -inset-2 bg-gradient-to-r from-sky-300 via-sky-100 to-sky-300 rounded-full blur-md opacity-40 animate-pulse"></div>
+                        <div class="relative bg-white/70 backdrop-blur-sm border-2 border-sky-300/80 px-8 py-2.5 rounded-full shadow-md">
+                            <h1 class="font-title text-3xl sm:text-4xl text-sky-800 font-extrabold tracking-wide">
+                                👶🏻 مُحَمَّد 👶🏻
+                            </h1>
+                        </div>
+                    </div>
+
+                    <!-- Prayer Text Body -->
+                    <div class="space-y-2 text-sky-950 text-sm sm:text-base my-3 leading-relaxed font-bold text-glow-dark">
+                        <p>جعله الله قرة عين لنا وألهمنا رضاه وبارك لنا فيه</p>
+                        <p class="text-sky-900 text-xs sm:text-sm font-bold">
+                            اللهم اجعله قرة عين لنا واحفظه وبارك فيه واجعله من عبادك الصالحين
+                        </p>
+                        <p class="text-sky-900 text-xs sm:text-sm font-bold">
+                          يتشرف أوليائه بدمج فرحتهم ويدعونكم لحضور حفل عقيقة ابنهم العزيز
+                        </p>
+                    </div>
+
+                    <div class="w-32 h-0.5 bg-gradient-to-r from-transparent via-sky-500 to-transparent my-4"></div>
+
+                    <!-- INTERACTIVE BUTTONS SECTION -->
+                    <div class="w-full space-y-3 mt-1">
+                        
+                        <!-- Toggle Date & Time Button -->
+                        <button onclick="toggleSection('dateSection')" class="w-full bg-white/85 hover:bg-white/95 text-sky-950 font-bold py-3 px-5 rounded-2xl shadow-md border border-sky-200/80 backdrop-blur-sm flex items-center justify-between transition-all group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-sky-100 flex items-center justify-center text-sky-600 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                                    <i class="fa-regular fa-calendar-check text-lg"></i>
+                                </div>
+                                <span class="text-sm sm:text-base">التاريخ والوقت (Date & Heure)</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-sky-500 group-hover:translate-y-0.5 transition-transform"></i>
+                        </button>
+
+                        <!-- Date Section with December Calendar -->
+                        <div id="dateSection" class="hidden bg-white/90 backdrop-blur-md rounded-2xl p-4 border border-sky-200 shadow-lg text-right space-y-3 transition-all">
+                            
+                            <!-- Calendar Header -->
+                            <div class="flex items-center justify-between border-b border-sky-100 pb-2">
+                                <span class="text-sky-900 font-bold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-calendar-days text-sky-500"></i>
+                                    شهر ديسمبر (Décembre)
+                                </span>
+                                <span class="text-sky-700 bg-sky-100 text-xs px-2.5 py-1 rounded-full font-bold">18 ديسمبر</span>
+                            </div>
+
+                            <!-- Styled Interactive December Calendar Grid -->
+                            <div class="pt-1">
+                                <div class="grid grid-cols-7 gap-1 text-center text-xs text-slate-400 font-bold mb-2">
+                                    <span>أح</span><span>إث</span><span>ثلا</span><span>أرب</span><span>خم</span><span>جم</span><span>سب</span>
+                                </div>
+                                <div class="grid grid-cols-7 gap-1 text-center text-xs font-semibold">
+                                    <!-- Days offset for December -->
+                                    <span class="p-1.5 text-slate-300"></span>
+                                    <span class="p-1.5 text-slate-300"></span>
+                                    <span class="p-1.5 text-slate-700">1</span>
+                                    <span class="p-1.5 text-slate-700">2</span>
+                                    <span class="p-1.5 text-slate-700">3</span>
+                                    <span class="p-1.5 text-slate-700">4</span>
+                                    <span class="p-1.5 text-slate-700">5</span>
+                                    <span class="p-1.5 text-slate-700">6</span>
+                                    <span class="p-1.5 text-slate-700">7</span>
+                                    <span class="p-1.5 text-slate-700">8</span>
+                                    <span class="p-1.5 text-slate-700">9</span>
+                                    <span class="p-1.5 text-slate-700">10</span>
+                                    <span class="p-1.5 text-slate-700">11</span>
+                                    <span class="p-1.5 text-slate-700">12</span>
+                                    <span class="p-1.5 text-slate-700">13</span>
+                                    <span class="p-1.5 text-slate-700">14</span>
+                                    <span class="p-1.5 text-slate-700">15</span>
+                                    <span class="p-1.5 text-slate-700">16</span>
+                                    <span class="p-1.5 text-slate-700">17</span>
+                                    
+                                    <!-- HIGHLIGHTED DATE: 18 DECEMBER -->
+                                    <div class="relative flex items-center justify-center">
+                                        <span class="w-7 h-7 flex items-center justify-center bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-extrabold rounded-full shadow-lg ring-2 ring-amber-300 animate-pulse">
+                                            18
+                                        </span>
+                                    </div>
+                                    
+                                    <span class="p-1.5 text-slate-700">19</span>
+                                    <span class="p-1.5 text-slate-700">20</span>
+                                    <span class="p-1.5 text-slate-700">21</span>
+                                    <span class="p-1.5 text-slate-700">22</span>
+                                    <span class="p-1.5 text-slate-700">23</span>
+                                    <span class="p-1.5 text-slate-700">24</span>
+                                    <span class="p-1.5 text-slate-700">25</span>
+                                    <span class="p-1.5 text-slate-700">26</span>
+                                    <span class="p-1.5 text-slate-700">27</span>
+                                    <span class="p-1.5 text-slate-700">28</span>
+                                    <span class="p-1.5 text-slate-700">29</span>
+                                    <span class="p-1.5 text-slate-700">30</span>
+                                    <span class="p-1.5 text-slate-700">31</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between border-t border-sky-100 pt-2 text-xs">
+                                <span class="text-slate-500"><i class="fa-regular fa-clock text-sky-500 ml-1"></i>التوقيت:</span>
+                                <span class="text-sky-900 font-bold">بداية من الساعة 14:30 مساءً</span>
+                            </div>
+                            
+                            <!-- Google Calendar link -->
+                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D8%B9%D9%82%D9%8A%D9%82%D8%A9+%D8%A7%D9%84%D9%85%D9%88%D9%84%D9%88%D8%AF+%D9%85%D8%AD%D9%85%D8%AF&dates=20261218T143000/20261218T180000" target="_blank" class="w-full mt-2 inline-flex items-center justify-center gap-2 bg-sky-50 hover:bg-sky-100 text-sky-800 text-xs font-bold py-2 rounded-xl transition-colors">
+                                <i class="fa-solid fa-calendar-plus text-sky-600"></i>
+                                حفظ الموعد في التقويم
+                            </a>
+                        </div>
+
+                        <!-- Toggle Location Button -->
+                        <button onclick="toggleSection('locationSection')" class="w-full bg-white/85 hover:bg-white/95 text-sky-950 font-bold py-3 px-5 rounded-2xl shadow-md border border-sky-200/80 backdrop-blur-sm flex items-center justify-between transition-all group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-sky-100 flex items-center justify-center text-sky-600 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                                    <i class="fa-solid fa-location-dot text-lg"></i>
+                                </div>
+                                <span class="text-sm sm:text-base">المكان والتوجيه (Lieu & Carte)</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-sky-500 group-hover:translate-y-0.5 transition-transform"></i>
+                        </button>
+
+                        <!-- Location Section -->
+                        <div id="locationSection" class="hidden bg-white/90 backdrop-blur-md rounded-2xl p-4 border border-sky-200 shadow-lg text-right space-y-3 transition-all">
+                            <div>
+                                <p class="text-xs text-slate-500">العنوان:</p>
+                                <p class="text-sky-900 font-bold text-sm mt-0.5">المنزل العائلي </p>
+                                <p class="text-xs text-slate-600">الجزائر العاصمة</p>
+                            </div>
+                            
+                            <!-- Google Maps Button -->
+                            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white text-xs font-bold py-2.5 rounded-xl shadow-md transition-all">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                فتح الموقع عبر خرائط Google Maps
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <!-- WELCOME CLOSING MESSAGE -->
+                    <div class="mt-6 pt-4 w-full flex flex-col items-center">
+                        <div class="text-amber-400 text-2xl mb-1 animate-bounce">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        
+                        <h2 class="font-title text-2xl text-sky-950 font-bold text-glow">
+                            حللتم أهلاً ووطئتم سهلاً - أهلاً وسهلاً بكم
+                        </h2>
+                        <p class="text-xs text-sky-900 font-bold mt-1 tracking-wide text-glow-dark">
+                            Soyez les bienvenus
+                        </p>
+                        <p class="text-sky-950 text-xs mt-2 font-bold text-glow-dark">
+                            حضوركم يسعدنا ويشرفنا ✨
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Footer spacer -->
+                <div class="py-2 text-center relative z-10"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Envelope Click to Open Animation
+        function openEnvelope() {
+            const envelopeScreen = document.getElementById('envelopeScreen');
+            const invitationScreen = document.getElementById('invitationScreen');
+
+            // Trigger confetti effect
+            triggerConfetti();
+
+            // Fade out Envelope
+            envelopeScreen.style.opacity = '0';
+            envelopeScreen.style.transform = 'scale(0.9) translateY(-20px)';
+
+            setTimeout(() => {
+                envelopeScreen.classList.add('hidden');
+                
+                // Show Invitation Screen with smooth animation
+                invitationScreen.classList.remove('hidden');
+                setTimeout(() => {
+                    invitationScreen.classList.remove('opacity-0', 'scale-95');
+                    invitationScreen.classList.add('opacity-100', 'scale-100');
+                }, 50);
+            }, 500);
+        }
+
+        // Accordion Toggle for Details Sections
+        function toggleSection(sectionId) {
+            const targetSection = document.getElementById(sectionId);
+            const isHidden = targetSection.classList.contains('hidden');
+
+            // Close all sections
+            document.getElementById('dateSection').classList.add('hidden');
+            document.getElementById('locationSection').classList.add('hidden');
+
+            // Toggle target section
+            if (isHidden) {
+                targetSection.classList.remove('hidden');
+            }
+        }
+
+        // Festive Confetti Effect
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 70,
+                    spread: 60,
+                    origin: { y: 0.6 },
+                    colors: ['#bae6fd', '#38bdf8', '#60a5fa', '#fef08a', '#ffffff']
+                });
+            }
+        }
+    </script>
+</body>
+</html>
